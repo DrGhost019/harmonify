@@ -1,0 +1,27 @@
+{
+  "name": "harmonify",
+  "version": "1.0.0",
+  "description": "A beautiful desktop music player with automatic lyrics, multiple themes, and stunning visual effects built with Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "electron",
+    "music-player",
+    "lyrics",
+    "desktop-app",
+    "mp3-player",
+    "themes"
+  ],
+  "author": "Mohammad Moein Kashefi Nejad <moienkashefi.19@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^38.1.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "howler": "^2.2.4"
+  }
+}

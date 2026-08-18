@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harmonify</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>Harmonify</h1>
+    <p>The initial version is ready!</p>
+
+    <div id="top-bar">
+      <div id="favorite-container">
+        <button id="favorite-btn">𖹭 Favorites</button>
+      </div>
+
+      <div id="theme-selector">
+        <label for="theme-select">Choose Theme:</label>
+        <select id="theme-select">
+          <option value="dark">Dark Mode</option>
+          <option value="light">Light Mode</option>
+          <option value="blue">Blue Theme</option>
+          <option value="red-green">Red & Pale Green</option>
+          <option value="grass-purple">Grass Green & Purple</option>
+          <option value="orange-skyblue">Orange & Sky Blue</option>
+          <option value="purple-yellow">Purple & Yellow</option>
+          <option value="black-yellow">Black & Yellow</option>
+        </select>
+      </div>
+
+      <div id="search-container">
+        <label for="search-input">Search:</label>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search songs..."
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div id="main-content">
+      <div id="song-list">
+        <h2>Lyrics</h2>
+      </div>
+
+      <div id="lyrics-container">
+        <div id="now-playing">No song selected</div>
+        <div id="lyrics-display"></div>
+      </div>
+    </div>
+
+    <div id="controls">
+      <div class="control-buttons">
+        <button id="shuffle-btn" title="Shuffle">⇄</button>
+        <button id="prev-btn">⏮ Prev</button>
+        <button id="play-btn">▶ Play</button>
+        <button id="pause-btn">⏸ Pause</button>
+        <button id="stop-btn">⏹ Stop</button>
+        <button id="next-btn">Next ⏭</button>
+        <button id="repeat-btn" title="Repeat">↺</button>
+        <div class="volume-container">
+          <span id="volume-icon" title="Mute/Unmute">🔊</span>
+          <input
+            type="range"
+            id="volume-slider"
+            min="0"
+            max="100"
+            value="100"
+            step="1"
+          />
+        </div>
+      </div>
+      <div class="progress-container">
+        <span id="current-time">0:00</span>
+        <input
+          type="range"
+          id="progress"
+          min="0"
+          max="100"
+          value="0"
+          step="1"
+        />
+        <span id="duration">0:00</span>
+      </div>
+    </div>
+
+    <canvas id="star-rain"></canvas>
+    <script src="renderer.js"></script>
+  </body>
+</html>
