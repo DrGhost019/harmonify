@@ -1,67 +1,72 @@
-# 🎵 Music Folder
+# 🎵 Music Directory (`music` / `Music`)
 
-This folder contains your MP3 music files for Harmonify player.
+Place your songs in this folder! Harmonify automatically discovers, indexes, and streams every audio file placed here.
 
-##  Supported File Format
+---
 
-Only **MP3** files are supported. Other formats (WAV, FLAC, OGG, etc.) will be ignored.
+## 🎧 Supported Audio Formats
 
-## 🏷️ Naming Convention (Important for Lyrics)
+Harmonify supports all major high-fidelity and compressed audio formats:
 
-For the best lyrics fetching experience, name your files using one of these formats:
+- **MP3** (`.mp3`)
+- **FLAC** (`.flac`) - Lossless high resolution
+- **WAV** (`.wav`) - Uncompressed audio
+- **OGG** (`.ogg`) - Ogg Vorbis container
+- **M4A / AAC** (`.m4a`, `.aac`) - Advanced Audio Coding
+
+> [!TIP]
+> You can also choose **any** folder on your computer by clicking the **"📁 Choose Music Folder"** pill at the top of the app, or simply drag and drop audio files or folders directly into the Harmonify window!
+
+---
+
+## 🏷️ Naming Convention (For Optimal Lyrics Matching)
+
+Harmonify features an intelligent name parser and also reads embedded ID3 tags directly. For files without embedded metadata, use one of the following formats for automatic lyrics matching:
 
 ### Format 1: `Title - Artist.mp3` (Recommended ✅)
-
-Sicko Mode - Travis Scott.mp3
+```text
 Blinding Lights - The Weeknd.mp3
 Bohemian Rhapsody - Queen.mp3
+Starboy - The Weeknd.mp3
+```
 
 ### Format 2: `Artist - Title.mp3`
-
-Travis Scott - Sicko Mode.mp3
+```text
 The Weeknd - Blinding Lights.mp3
 Queen - Bohemian Rhapsody.mp3
+Travis Scott - 90210.mp3
+```
 
 ### With Featured Artists:
-
+```text
 90210 (feat. Kacy Hill) - Travis Scott.mp3
 Sicko Mode feat. Drake - Travis Scott.mp3
+```
+
+---
 
 ## 🎤 How Lyrics Work
 
-Harmonify automatically fetches lyrics from multiple free sources:
+Harmonify automatically queries lyrics across multiple providers in parallel:
 
-1. **LRCLIB** - Large database with synced lyrics support
-2. **Lyrics.ovh** - Simple and fast API
-3. **Some Random API** - Backup source
+1. **LRCLIB** - High-accuracy database featuring **real-time synced karaoke lyrics** with millisecond timestamps.
+2. **Lyrics.ovh** - Fast, lightweight global lyrics fallback.
+3. **Some Random API** - Backup lyrics source (configured via `.env`).
 
-### Tips for Better Lyrics Matching:
-- ✅ Use standard naming: `Title - Artist.mp3`
-- ✅ Remove extra info like `(Official Video)`, `[HD]`, etc.
-- ✅ Use English names for better results
--  Avoid special characters in filenames
-- ❌ Don't use very long filenames
+### Synced Lyrics Features:
+- **Interactive Karaoke**: Active lines highlight in bright accent color and auto-scroll to center.
+- **Click-to-Seek**: Click any lyric line to instantly jump the audio playback to that exact second!
+- **Automatic Caching**: Lyrics are cached locally for instantaneous offline loading on repeat listens.
 
-### What if Lyrics Don't Load?
-- Check if the filename follows the naming convention
-- Try renaming the file with a simpler name
-- Some songs may not have lyrics available in any database
-- Very new or very old songs might not be in the databases yet
+---
 
-## 📂 Folder Structure Example
+## 📂 Example Folder Structure
 
+```text
 Music/
-├── 90210 - Travis Scott.mp3
 ├── Blinding Lights - The Weeknd.mp3
-├── Bohemian Rhapsody - Queen.mp3
-└── README.md (this file)
-
-##  Features
-- 🎵 Play MP3 files
-- 📝 Auto-fetch lyrics
-- 🔀 Shuffle mode
-- 🔁 Repeat modes (All/One)
-- ❤️ Favorite songs
-- 🔍 Search songs
--  8 beautiful themes
-- ✨ Star rain animation
+├── Bohemian Rhapsody - Queen.flac
+├── Starlight Echoes - Harmonify.mp3
+├── Synthwave Harmony - Harmonify.mp3
+└── README.md
+```

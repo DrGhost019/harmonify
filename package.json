@@ -1,27 +1,45 @@
 {
   "name": "harmonify",
-  "version": "1.0.0",
-  "description": "A beautiful desktop music player with automatic lyrics, multiple themes, and stunning visual effects built with Electron",
-  "main": "main.js",
+  "version": "2.0.0",
+  "description": "A modern Spotify-inspired full-stack web music player with synced lyrics, audio visualizer, multiple themes, and offline ID3 metadata built with Next.js, React, TypeScript, and Tailwind CSS",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "keywords": [
-    "electron",
+    "nextjs",
+    "react",
+    "typescript",
+    "tailwindcss",
     "music-player",
+    "spotify-ui",
     "lyrics",
-    "desktop-app",
-    "mp3-player",
-    "themes"
+    "synced-lyrics",
+    "audio-player",
+    "themes",
+    "visualizer"
   ],
   "author": "Mohammad Moein Kashefi Nejad <moienkashefi.19@gmail.com>",
   "license": "ISC",
-  "devDependencies": {
-    "electron": "^38.1.0"
-  },
   "dependencies": {
+    "autoprefixer": "^10.4.24",
     "dotenv": "^16.4.5",
-    "howler": "^2.2.4"
+    "howler": "^2.2.4",
+    "lucide-react": "^1.16.0",
+    "music-metadata": "^11.8.3",
+    "next": "^16.4.6",
+    "postcss": "^8.5.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.2.12",
+    "@types/node": "^22.19.15",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
   }
 }

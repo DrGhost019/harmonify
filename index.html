@@ -3,91 +3,420 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Harmonify</title>
+    <title>Harmonify - Modern Desktop Music Player</title>
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body>
-    <h1>Harmonify</h1>
-    <p>The initial version is ready!</p>
+  <body class="dark">
+    <!-- Ambient Starfield Canvas -->
+    <canvas id="star-rain"></canvas>
 
-    <div id="top-bar">
-      <div id="favorite-container">
-        <button id="favorite-btn">𖹭 Favorites</button>
+    <!-- Cursor Glow Effect -->
+    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <div class="app-layout">
+      <!-- Top Navigation Bar -->
+      <header id="top-bar">
+        <div class="header-left">
+          <div class="brand">
+            <svg class="brand-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.623.623 0 0 1-.86.205c-2.353-1.437-5.315-1.762-8.803-.964a.625.625 0 0 1-.28-1.218c3.816-.873 7.087-.495 9.738 1.117a.625.625 0 0 1 .205.86zm1.226-2.723a.78.78 0 0 1-1.074.258c-2.693-1.655-6.8-2.133-9.986-1.166a.78.78 0 0 1-.469-1.488c3.642-1.106 8.18-.577 11.271 1.322a.78.78 0 0 1 .258 1.074zm.106-2.836C14.692 8.92 9.387 8.743 6.309 9.678a.936.936 0 1 1-.542-1.791c3.535-1.072 9.39-.868 13.255 1.427a.936.936 0 1 1-1.104 1.551z"/>
+            </svg>
+            <span class="brand-title">Harmonify</span>
+          </div>
+
+          <button id="change-folder-btn" class="header-pill-btn" title="Choose Music Folder">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+            </svg>
+            <span id="current-folder-label">Music Folder</span>
+          </button>
+        </div>
+
+        <div class="header-center">
+          <div id="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="What do you want to play? (Press '/' to focus)"
+              autocomplete="off"
+            />
+            <button id="clear-search-btn" class="clear-search-btn" title="Clear search" style="display: none;">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button id="star-toggle-btn" class="header-pill-btn active" title="Toggle Ambient Starfield">
+            <span class="star-icon">✨</span>
+            <span>Starfield</span>
+          </button>
+
+          <div id="theme-selector-wrap">
+            <label for="theme-select" class="visually-hidden">Choose Theme</label>
+            <select id="theme-select" class="theme-dropdown" title="Choose Theme">
+              <option value="dark">Spotify Dark</option>
+              <option value="black-yellow">Midnight Gold</option>
+              <option value="blue">Cyberpunk Blue</option>
+              <option value="grass-purple">Emerald Neon</option>
+              <option value="purple-yellow">Cyber Violet</option>
+              <option value="orange-skyblue">Sunset Orange</option>
+              <option value="red-green">Crimson Rose</option>
+              <option value="light">Crisp Light</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main App Body (Sidebar + Content + Lyrics Panel) -->
+      <div class="app-body">
+        <!-- Left Sidebar Navigation -->
+        <aside id="sidebar">
+          <nav class="sidebar-nav">
+            <button class="nav-item active" id="nav-all">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              </svg>
+              <span>Home & Library</span>
+            </button>
+
+            <button class="nav-item" id="nav-favorites">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              <span>Liked Songs</span>
+              <span class="sidebar-badge" id="fav-count-badge">0</span>
+            </button>
+
+            <button class="nav-item" id="nav-recent">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+              </svg>
+              <span>Recently Played</span>
+            </button>
+          </nav>
+
+          <div class="sidebar-divider"></div>
+
+          <!-- Quick Playlist / Collection Cards in Sidebar -->
+          <div class="sidebar-playlists">
+            <div class="sidebar-playlist-item active" id="sidebar-card-all">
+              <div class="playlist-icon-box gradient-music">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+              </div>
+              <div class="playlist-item-info">
+                <span class="playlist-item-name">Local Music</span>
+                <span class="playlist-item-meta" id="sidebar-total-songs">0 tracks</span>
+              </div>
+            </div>
+
+            <div class="sidebar-playlist-item" id="sidebar-card-favs">
+              <div class="playlist-icon-box gradient-heart">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+              <div class="playlist-item-info">
+                <span class="playlist-item-name">Liked Songs</span>
+                <span class="playlist-item-meta" id="sidebar-fav-songs">0 tracks</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-footer">
+            <div class="mini-stats">
+              <span id="storage-status">Saved Locally</span>
+              <span class="version-tag">Harmonify v1.1</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content">
+          <!-- Dynamic Hero Header -->
+          <div class="hero-header" id="hero-header">
+            <div class="hero-greeting">
+              <h2 id="greeting-title">Good Day</h2>
+              <span class="greeting-subtitle">Welcome back to your music collection</span>
+            </div>
+
+            <!-- Quick Cards Row -->
+            <div class="quick-grid" id="quick-grid">
+              <div class="quick-card" id="quick-fav-card">
+                <div class="quick-thumb gradient-heart">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                </div>
+                <span class="quick-title">Liked Songs</span>
+                <button class="quick-play-btn" title="Play Liked Songs">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="quick-card" id="quick-all-card">
+                <div class="quick-thumb gradient-music">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                  </svg>
+                </div>
+                <span class="quick-title">All Local Songs</span>
+                <button class="quick-play-btn" title="Play All Songs">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Playlist Hero Banner -->
+            <div class="playlist-banner">
+              <div class="banner-cover" id="banner-cover">
+                <div class="banner-cover-inner gradient-music" id="banner-cover-bg">
+                  <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor">
+                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="banner-details">
+                <span class="banner-type">COLLECTION</span>
+                <h1 class="banner-title" id="banner-title">Local Library</h1>
+                <p class="banner-meta" id="banner-meta">
+                  <span class="bold">Harmonify</span> • <span id="banner-stats">0 songs</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Bar (Play, Shuffle, Filter chips, Sort) -->
+          <div class="action-bar">
+            <div class="action-left">
+              <button class="big-play-btn" id="hero-play-btn" title="Play / Pause">
+                <svg id="hero-play-icon" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+
+              <button class="action-icon-btn" id="hero-shuffle-btn" title="Shuffle Playback">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
+                </svg>
+              </button>
+
+              <div class="filter-chips">
+                <button class="filter-chip active" id="chip-all">All</button>
+                <button class="filter-chip" id="chip-favs">Liked</button>
+              </div>
+            </div>
+
+            <div class="action-right">
+              <div class="sort-wrap">
+                <label for="sort-select" class="sort-label">Sort by:</label>
+                <select id="sort-select" class="sort-dropdown">
+                  <option value="default">Default Order</option>
+                  <option value="title">Title (A-Z)</option>
+                  <option value="artist">Artist (A-Z)</option>
+                  <option value="duration">Duration</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spotify Track Table -->
+          <div class="tracks-container">
+            <div class="track-table-header">
+              <div class="col-index">#</div>
+              <div class="col-title">Title</div>
+              <div class="col-artist">Artist</div>
+              <div class="col-duration">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+              </div>
+              <div class="col-fav">Like</div>
+            </div>
+
+            <!-- Dynamic Song List Rows -->
+            <div id="song-list" class="track-rows">
+              <!-- Populated by JavaScript -->
+            </div>
+          </div>
+        </main>
+
+        <!-- Right Side Panel: Now Playing & Synced Lyrics -->
+        <aside id="lyrics-panel" class="lyrics-panel">
+          <div class="panel-header">
+            <h3>Now Playing</h3>
+            <button id="close-lyrics-btn" class="icon-btn" title="Close Panel">✕</button>
+          </div>
+
+          <div class="panel-artwork-wrap">
+            <div class="panel-art-card" id="panel-art-card">
+              <div class="panel-art-placeholder gradient-music" id="panel-art-cover">
+                <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="panel-track-details">
+              <h2 id="panel-song-title">No track playing</h2>
+              <p id="panel-song-artist">Select a song to start</p>
+            </div>
+          </div>
+
+          <!-- Lyrics Display Section -->
+          <div class="lyrics-section">
+            <div class="lyrics-header">
+              <span class="lyrics-badge" id="lyrics-source-badge">Lyrics</span>
+              <span class="lyrics-hint" id="lyrics-hint">Click a line to jump</span>
+            </div>
+
+            <div id="lyrics-display" class="lyrics-content">
+              <div class="lyrics-placeholder">
+                <p>Play a song to load lyrics</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-time Audio Frequency Visualizer -->
+          <div class="visualizer-container">
+            <canvas id="audio-visualizer" width="300" height="40"></canvas>
+          </div>
+        </aside>
       </div>
 
-      <div id="theme-selector">
-        <label for="theme-select">Choose Theme:</label>
-        <select id="theme-select">
-          <option value="dark">Dark Mode</option>
-          <option value="light">Light Mode</option>
-          <option value="blue">Blue Theme</option>
-          <option value="red-green">Red & Pale Green</option>
-          <option value="grass-purple">Grass Green & Purple</option>
-          <option value="orange-skyblue">Orange & Sky Blue</option>
-          <option value="purple-yellow">Purple & Yellow</option>
-          <option value="black-yellow">Black & Yellow</option>
-        </select>
-      </div>
+      <!-- Persistent Spotify Bottom Player Bar -->
+      <footer id="bottom-player">
+        <!-- Left: Now Playing Info -->
+        <div class="player-left">
+          <div class="mini-art gradient-music" id="player-art">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+            </svg>
+          </div>
+          <div class="mini-track-info">
+            <div class="mini-title" id="player-song-title" title="No song selected">No song selected</div>
+            <div class="mini-artist" id="player-song-artist">Harmonify</div>
+          </div>
+          <button id="player-fav-btn" class="heart-icon-btn" title="Save to Your Liked Songs">
+            ♡
+          </button>
+        </div>
 
-      <div id="search-container">
-        <label for="search-input">Search:</label>
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search songs..."
-          autocomplete="off"
-        />
-      </div>
-    </div>
+        <!-- Center: Controls & Scrubber -->
+        <div class="player-center">
+          <div class="player-controls">
+            <button id="shuffle-btn" class="control-btn" title="Toggle Shuffle (Ctrl+S)">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
+              </svg>
+              <span class="control-dot"></span>
+            </button>
 
-    <div id="main-content">
-      <div id="song-list">
-        <h2>Lyrics</h2>
-      </div>
+            <button id="prev-btn" class="control-btn" title="Previous (Left Arrow)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+              </svg>
+            </button>
 
-      <div id="lyrics-container">
-        <div id="now-playing">No song selected</div>
-        <div id="lyrics-display"></div>
-      </div>
-    </div>
+            <button id="play-pause-btn" class="primary-play-btn" title="Play / Pause (Space)">
+              <svg id="play-pause-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
 
-    <div id="controls">
-      <div class="control-buttons">
-        <button id="shuffle-btn" title="Shuffle">⇄</button>
-        <button id="prev-btn">⏮ Prev</button>
-        <button id="play-btn">▶ Play</button>
-        <button id="pause-btn">⏸ Pause</button>
-        <button id="stop-btn">⏹ Stop</button>
-        <button id="next-btn">Next ⏭</button>
-        <button id="repeat-btn" title="Repeat">↺</button>
-        <div class="volume-container">
-          <span id="volume-icon" title="Mute/Unmute">🔊</span>
-          <input
-            type="range"
-            id="volume-slider"
-            min="0"
-            max="100"
-            value="100"
-            step="1"
-          />
+            <button id="next-btn" class="control-btn" title="Next (Right Arrow)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+              </svg>
+            </button>
+
+            <button id="repeat-btn" class="control-btn" title="Toggle Repeat (Ctrl+R)">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
+              </svg>
+              <span class="control-dot"></span>
+            </button>
+          </div>
+
+          <div class="player-scrubber">
+            <span id="current-time" class="time-label">0:00</span>
+            <div class="slider-wrapper">
+              <input
+                type="range"
+                id="progress"
+                min="0"
+                max="100"
+                value="0"
+                step="0.5"
+                class="spotify-slider"
+              />
+            </div>
+            <span id="duration" class="time-label">0:00</span>
+          </div>
+        </div>
+
+        <!-- Right: Lyrics, Queue, Volume -->
+        <div class="player-right">
+          <button id="lyrics-toggle-btn" class="control-btn active" title="Toggle Synced Lyrics">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+            </svg>
+          </button>
+
+          <button id="queue-toggle-btn" class="control-btn" title="Toggle Queue">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/>
+            </svg>
+          </button>
+
+          <div class="volume-control">
+            <button id="volume-icon" class="volume-btn" title="Mute / Unmute (M)">
+              <svg id="volume-svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+            </button>
+            <div class="volume-slider-wrapper">
+              <input
+                type="range"
+                id="volume-slider"
+                min="0"
+                max="100"
+                value="85"
+                step="1"
+                class="spotify-slider volume-slider"
+              />
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Queue Overlay Drawer -->
+      <div id="queue-drawer" class="queue-drawer">
+        <div class="queue-header">
+          <h3>Play Queue</h3>
+          <button id="close-queue-btn" class="icon-btn">✕</button>
+        </div>
+        <div class="queue-section">
+          <h4>Now Playing</h4>
+          <div id="queue-now-playing" class="queue-item active">No song playing</div>
+        </div>
+        <div class="queue-section">
+          <h4>Next Up</h4>
+          <div id="queue-list" class="queue-items"></div>
         </div>
       </div>
-      <div class="progress-container">
-        <span id="current-time">0:00</span>
-        <input
-          type="range"
-          id="progress"
-          min="0"
-          max="100"
-          value="0"
-          step="1"
-        />
-        <span id="duration">0:00</span>
-      </div>
     </div>
 
-    <canvas id="star-rain"></canvas>
     <script src="renderer.js"></script>
   </body>
 </html>

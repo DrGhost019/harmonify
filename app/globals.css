@@ -1,0 +1,246 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Font Definitions */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   Theme Variables
+   ========================================================================== */
+:root {
+  --bg-base: #121212;
+  --bg-sidebar: #000000;
+  --bg-card: #181818;
+  --bg-card-hover: #282828;
+  --bg-player: #181818;
+  --bg-header: rgba(18, 18, 18, 0.85);
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #727272;
+  --accent: #1ed760;
+  --accent-hover: #1fdf64;
+  --accent-active: #169c46;
+  --accent-glow: rgba(30, 215, 96, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(30, 215, 96, 0.25) 0%, rgba(18, 18, 18, 0) 100%);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(255, 255, 255, 0.2);
+  --slider-bg: #4d4d4d;
+}
+
+/* 1. Spotify Dark (Default) */
+body.dark {
+  --bg-base: #121212;
+  --bg-sidebar: #000000;
+  --bg-card: #181818;
+  --bg-card-hover: #282828;
+  --bg-player: #181818;
+  --bg-header: rgba(18, 18, 18, 0.85);
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --accent: #1ed760;
+  --accent-hover: #1fdf64;
+  --accent-active: #169c46;
+  --accent-glow: rgba(30, 215, 96, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(30, 215, 96, 0.25) 0%, rgba(18, 18, 18, 0) 100%);
+}
+
+/* 2. Midnight Gold */
+body.black-yellow {
+  --bg-base: #0c0c0c;
+  --bg-sidebar: #000000;
+  --bg-card: #161616;
+  --bg-card-hover: #252525;
+  --bg-player: #161616;
+  --bg-header: rgba(12, 12, 12, 0.85);
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+  --accent-active: #d97706;
+  --accent-glow: rgba(245, 158, 11, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(245, 158, 11, 0.25) 0%, rgba(12, 12, 12, 0) 100%);
+}
+
+/* 3. Cyberpunk Blue */
+body.blue {
+  --bg-base: #0b132b;
+  --bg-sidebar: #060a17;
+  --bg-card: #14213d;
+  --bg-card-hover: #1f3158;
+  --bg-player: #0f1a35;
+  --bg-header: rgba(11, 19, 43, 0.85);
+  --text-primary: #f0f6fc;
+  --text-secondary: #8da9c4;
+  --accent: #00f5d4;
+  --accent-hover: #52ffee;
+  --accent-active: #00bfa5;
+  --accent-glow: rgba(0, 245, 212, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(0, 245, 212, 0.22) 0%, rgba(11, 19, 43, 0) 100%);
+}
+
+/* 4. Emerald Neon */
+body.grass-purple {
+  --bg-base: #0c1a15;
+  --bg-sidebar: #060e0c;
+  --bg-card: #142921;
+  --bg-card-hover: #1e3b30;
+  --bg-player: #10211b;
+  --bg-header: rgba(12, 26, 21, 0.85);
+  --text-primary: #f2fcf7;
+  --text-secondary: #8ab8a3;
+  --accent: #10b981;
+  --accent-hover: #34d399;
+  --accent-active: #059669;
+  --accent-glow: rgba(16, 185, 129, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(16, 185, 129, 0.22) 0%, rgba(12, 26, 21, 0) 100%);
+}
+
+/* 5. Cyber Violet */
+body.purple-yellow {
+  --bg-base: #120c1f;
+  --bg-sidebar: #090611;
+  --bg-card: #1e1533;
+  --bg-card-hover: #2c1e4a;
+  --bg-player: #171027;
+  --bg-header: rgba(18, 12, 31, 0.85);
+  --text-primary: #fbf8ff;
+  --text-secondary: #a99ac2;
+  --accent: #a855f7;
+  --accent-hover: #c084fc;
+  --accent-active: #9333ea;
+  --accent-glow: rgba(168, 85, 247, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(168, 85, 247, 0.25) 0%, rgba(18, 12, 31, 0) 100%);
+}
+
+/* 6. Sunset Orange */
+body.orange-skyblue {
+  --bg-base: #180f0c;
+  --bg-sidebar: #0d0705;
+  --bg-card: #271914;
+  --bg-card-hover: #3a251e;
+  --bg-player: #201410;
+  --bg-header: rgba(24, 15, 12, 0.85);
+  --text-primary: #fff7f4;
+  --text-secondary: #c49e93;
+  --accent: #f97316;
+  --accent-hover: #fb923c;
+  --accent-active: #ea580c;
+  --accent-glow: rgba(249, 115, 22, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(249, 115, 22, 0.25) 0%, rgba(24, 15, 12, 0) 100%);
+}
+
+/* 7. Crimson Rose */
+body.red-green {
+  --bg-base: #180c11;
+  --bg-sidebar: #0d0609;
+  --bg-card: #28141d;
+  --bg-card-hover: #3c1e2b;
+  --bg-player: #211018;
+  --bg-header: rgba(24, 12, 17, 0.85);
+  --text-primary: #fff5f7;
+  --text-secondary: #c496a4;
+  --accent: #f43f5e;
+  --accent-hover: #fb7185;
+  --accent-active: #e11d48;
+  --accent-glow: rgba(244, 63, 94, 0.35);
+  --hero-gradient: linear-gradient(180deg, rgba(244, 63, 94, 0.25) 0%, rgba(24, 12, 17, 0) 100%);
+}
+
+/* 8. Crisp Light */
+body.light {
+  --bg-base: #f8fafc;
+  --bg-sidebar: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #e2e8f0;
+  --bg-player: #ffffff;
+  --bg-header: rgba(248, 250, 252, 0.88);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent: #16a34a;
+  --accent-hover: #22c55e;
+  --accent-active: #15803d;
+  --accent-glow: rgba(22, 163, 74, 0.2);
+  --hero-gradient: linear-gradient(180deg, rgba(22, 163, 74, 0.15) 0%, rgba(248, 250, 252, 0) 100%);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-focus: rgba(0, 0, 0, 0.2);
+  --slider-bg: #cbd5e1;
+}
+
+body {
+  background-color: var(--bg-sidebar);
+  color: var(--text-primary);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Range Slider Styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  background: var(--slider-bg);
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--text-primary);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Animated Equalizer Wave */
+@keyframes bounceBar {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+.equalizer-bar-1 { animation: bounceBar 0.9s ease-in-out infinite alternate; animation-delay: 0.1s; }
+.equalizer-bar-2 { animation: bounceBar 0.9s ease-in-out infinite alternate; animation-delay: 0.3s; }
+.equalizer-bar-3 { animation: bounceBar 0.9s ease-in-out infinite alternate; animation-delay: 0.2s; }
+
+/* Gradients */
+.gradient-music {
+  background: linear-gradient(135deg, #450af5, #c4efd9);
+  color: #ffffff;
+}
+
+.gradient-heart {
+  background: linear-gradient(135deg, #450af5, #8e8ee5);
+  color: #ffffff;
+}
